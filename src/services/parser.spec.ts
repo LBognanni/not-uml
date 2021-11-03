@@ -1,18 +1,147 @@
-import { convertToSvg } from "./parser";
+import { convertToSvg, extractElements, ElementType } from "./parser";
+
+describe("Parsing a string to element structure", ()=> {
+
+    it(`can parse a simple structure`, ()=>{
+
+        const simple = `Some view
+ - First Action
+ - Second Action`;
+
+        const expected = [{
+            text: "Some view",
+            type: ElementType.View,
+            children: [
+                {
+                    text: "First Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+                {
+                    text: "Second Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+            ]
+        }];
+
+        const result = extractElements(simple);
+        console.log(JSON.stringify(result));
+        expect(result).toMatchObject(expected);
+    });
+
+    it(`can parse a structure with newlines`, ()=>{
+
+        const simple = `Some view
+ - First Action
+
+ - Second Action
+ `;
+
+        const expected = [{
+            text: "Some view",
+            type: ElementType.View,
+            children: [
+                {
+                    text: "First Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+                {
+                    text: "Second Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+            ]
+        }];
+
+        const result = extractElements(simple);
+        console.log(JSON.stringify(result));
+        expect(result).toMatchObject(expected);
+    });
+
+    
+    it(`can parse a slightly nested structure`, ()=>{
+
+        const simple = `Some view
+ - First Action
+  -> Child of first
+   - Child of child of first
+ - Second Action
+ `;
+
+        const expected = [{
+            text: "Some view",
+            type: ElementType.View,
+            children: [
+                {
+                    text: "First Action",
+                    type: ElementType.Action,
+                    children: [ {
+                        text: "Child of first",
+                        type: ElementType.View,
+                        children: [ {
+                            text: "Child of child of first",
+                            type: ElementType.Action,
+                            children: []
+                        }]
+                    }]
+                },
+                {
+                    text: "Second Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+            ]
+        }];
+
+        const result = extractElements(simple);
+        console.log(JSON.stringify(result));
+        expect(result).toMatchObject(expected);
+    });
+
+    it(`can handle multi spaces`, ()=>{
+
+        const simple = `
+Some view
+    - First Action
+        ->  Child of first
+            - Child of child of first
+    - Second Action
+`;
+
+        const expected = [{
+            text: "Some view",
+            type: ElementType.View,
+            children: [
+                {
+                    text: "First Action",
+                    type: ElementType.Action,
+                    children: [ {
+                        text: "Child of first",
+                        type: ElementType.View,
+                        children: [ {
+                            text: "Child of child of first",
+                            type: ElementType.Action,
+                            children: []
+                        }]
+                    }]
+                },
+                {
+                    text: "Second Action",
+                    type: ElementType.Action,
+                    children: []
+                },
+            ]
+        }];
+
+        const result = extractElements(simple);
+        console.log(JSON.stringify(result));
+        expect(result).toMatchObject(expected);
+    });
+});
 
 describe('Parsing a string to svg', () => {
-
-    const fullDiagram = `
-view
-    - action 1
-        -> view 2
-            - action 2.1
-            - action 2.2 
-    - action 2
-        -> view 3
-            - action 3.1
-            - action 3.2
-`;
 
     it(`should create a svg element`, () => {
         const expected = `<svg xmlns="http://www.w3.org/2000/svg">
@@ -23,12 +152,5 @@ view
         expect(result).toBe(expected);
     });
 
-    it("should parse a single view", () => {
 
-        const expected = `<svg xmlns="http://www.w3.org/2000/svg">
-<g>
-</g>
-</svg>`;
-    });
-
-})
+});
