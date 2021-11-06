@@ -1,4 +1,5 @@
-import { convertToSvg, extractElements, ElementType } from "./parser";
+import { convertToSvg, extractElements } from "./parser";
+import { ElementType } from "./parsertypes";
 
 describe("Parsing a string to element structure", ()=> {
 

@@ -1,19 +1,4 @@
-enum ElementType {
-    Root,
-    View,
-    Action
-};
-
-interface Element {
-    text: string;
-    type: ElementType;
-    children: Element[];
-};
-
-interface ElementAndSpaces {
-    spaces: number;
-    element: Element;
-};
+import {ElementType, Element, ElementAndSpaces} from "./parsertypes";
 
 function createElement(line : string): Element{
     if(line.startsWith("- "))
@@ -94,4 +79,4 @@ function convertToSvg(text:string) {
 </svg>`
 }
 
-export {convertToSvg, extractElements, ElementType};
+export {convertToSvg, extractElements};
