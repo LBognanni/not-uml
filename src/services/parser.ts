@@ -1,4 +1,9 @@
-import {ElementType, Element, ElementAndSpaces} from "./parsertypes";
+import {ElementType, Element} from "./parsertypes";
+
+interface ElementAndSpaces {
+    spaces: number;
+    element: Element;
+};
 
 function createElement(line : string): Element{
     if(line.startsWith("- "))
