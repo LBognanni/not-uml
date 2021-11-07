@@ -60,13 +60,13 @@ describe(`When converting items to svg string`, () => {
                 height: 15,
                 next: [],
                 type: ElementType.View,
-                width: 0,
+                width: 50,
             },
         ];
         const result = itemsToSvg(items);
         expect(result).toBe(`<g>
 <text x="0" y="0" font-size="10">hello</text>
-<path d="m0 12.5 h${ "hello".length * 10 }" stroke="#000" stroke-width="2" fill="none"/>
+<path d="m0 12.5 h50" stroke="#000" stroke-width="2" fill="none"/>
 </g>`);
     });
 });
