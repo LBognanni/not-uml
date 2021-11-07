@@ -1,5 +1,5 @@
-import { Convert, MeasureItems } from "./converter"
 import { SvgItem, ElementType, Element } from "./parsertypes"
+import { convert, measureAndMoveItems } from "./converter"
 
 function makeItem(x: number, y: number, w: number, children: SvgItem[]): SvgItem {
     return {
@@ -22,7 +22,7 @@ describe(`When measuring items`, () => {
             makeItem(0, 45, 110, []),
         ];
 
-        const size = MeasureItems(items);
+        const size = measureAndMoveItems(items);
         expect(size).toMatchObject({
             left: 0,
             top: 0,
@@ -42,7 +42,7 @@ describe(`When measuring items`, () => {
             makeItem(0, 45, 110, []),
         ];
 
-        const size = MeasureItems(items);
+        const size = measureAndMoveItems(items);
         it(`Should calculate the correct size`, ()=>{
             expect(size).toMatchObject({
                 left: 0,
@@ -73,7 +73,7 @@ describe(`When measuring items`, () => {
             makeItem(0, 45, 110, []),
         ];
 
-        const size = MeasureItems(items);
+        const size = measureAndMoveItems(items);
         it(`Should calculate the correct size`, ()=>{
             expect(size).toMatchObject({
                 left: 0,
@@ -108,7 +108,7 @@ describe(`When measuring items`, () => {
             ]),
         ];
 
-        const size = MeasureItems(items);
+        const size = measureAndMoveItems(items);
         const expectedAllHeight = 60*3 + 50*2;
 
         it(`Should calculate the correct size`, ()=>{
@@ -149,7 +149,7 @@ describe(`When converting Elements to SvgElements`, ()=>{
             },
         ];
 
-        const result = Convert(0, 0, elements);
+        const result = convert(0, 0, elements);
         expect(result).toMatchObject([
             {
                 text: "first view",
@@ -220,7 +220,7 @@ describe(`When converting Elements to SvgElements`, ()=>{
             },
         ];
 
-        const results = Convert(0, 0, elements);
+        const results = convert(0, 0, elements);
         expect(results).toMatchObject([
             {
                 text: "first view",

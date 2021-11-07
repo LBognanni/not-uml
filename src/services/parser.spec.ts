@@ -1,4 +1,4 @@
-import { convertToSvg, extractElements } from "./parser";
+import { extractElements } from "./parser";
 import { ElementType } from "./parsertypes";
 
 describe("Parsing a string to element structure", ()=> {
@@ -218,18 +218,4 @@ Some view
         console.log(JSON.stringify(result));
         expect(result).toMatchObject(expected);
     });
-});
-
-describe('Parsing a string to svg', () => {
-
-    it(`should create a svg element`, () => {
-        const expected = `<svg xmlns="http://www.w3.org/2000/svg">
-</svg>`;
-        
-        const result = convertToSvg("");
-        
-        expect(result).toBe(expected);
-    });
-
-
 });

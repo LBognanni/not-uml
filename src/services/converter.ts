@@ -24,7 +24,7 @@ function moveItems(items: SvgItem[], dx: number, dy: number)
     }
 }
 
-function MeasureItems(items: SvgItem[]): BoundingBox
+function measureAndMoveItems(items: SvgItem[]): BoundingBox
 {
     let box: BoundingBox = {
         left:    9999999,
@@ -47,7 +47,7 @@ function MeasureItems(items: SvgItem[]): BoundingBox
         {
             directChildren.push({
                 items: item.next,
-                box: MeasureItems(item.next)
+                box: measureAndMoveItems(item.next)
             });
         }
     }
@@ -74,7 +74,7 @@ function MeasureItems(items: SvgItem[]): BoundingBox
     return box;
 }
 
-function Convert(x: number, y: number, elements: Element[]) : SvgItem[]
+function convert(x: number, y: number, elements: Element[]) : SvgItem[]
 {
     let items:SvgItem[] = [];
     let current_x = x;
@@ -99,12 +99,12 @@ function Convert(x: number, y: number, elements: Element[]) : SvgItem[]
         {
             if(item.type === ElementType.View)
             {
-                const subItems = Convert(current_x, current_y, element.children);
+                const subItems = convert(current_x, current_y, element.children);
                 items.push(...subItems);
             }
             else
             {
-                const subItems = Convert(x, y, element.children);
+                const subItems = convert(x, y, element.children);
                 item.next = subItems;
             }
         }
@@ -113,4 +113,6 @@ function Convert(x: number, y: number, elements: Element[]) : SvgItem[]
     return items;
 }
 
-export { Convert, MeasureItems };
+
+
+export { convert, measureAndMoveItems };
