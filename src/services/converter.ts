@@ -1,5 +1,4 @@
-import { chdir } from "process";
-import {ElementType, Element, SvgItem, Size, BoundingBox} from "./parsertypes";
+import {ElementType, Element, SvgItem, Size, BoundingBox, ItemsWithBox} from "./parsertypes";
 
 const vspacing = 50;
 const hspacing = 100;
@@ -74,7 +73,7 @@ function measureAndMoveItems(items: SvgItem[]): BoundingBox
     return box;
 }
 
-function convert(x: number, y: number, elements: Element[]) : SvgItem[]
+function convert(x: number, y: number, elements: Element[]) : ItemsWithBox
 {
     let items:SvgItem[] = [];
     let current_x = x;
@@ -99,18 +98,19 @@ function convert(x: number, y: number, elements: Element[]) : SvgItem[]
         {
             if(item.type === ElementType.View)
             {
-                const subItems = convert(current_x, current_y, element.children);
+                const {items: subItems} = convert(current_x, current_y, element.children);
                 items.push(...subItems);
             }
             else
             {
-                const subItems = convert(x, y, element.children);
+                const {items: subItems} = convert(x, y, element.children);
                 item.next = subItems;
             }
         }
     }
 
-    return items;
+    const box = measureAndMoveItems(items);
+    return {items, box};
 }
 
 

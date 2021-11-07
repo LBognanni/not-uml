@@ -150,7 +150,7 @@ describe(`When converting Elements to SvgElements`, ()=>{
         ];
 
         const result = convert(0, 0, elements);
-        expect(result).toMatchObject([
+        expect(result.items).toMatchObject([
             {
                 text: "first view",
                 type: ElementType.View,
@@ -220,13 +220,11 @@ describe(`When converting Elements to SvgElements`, ()=>{
             },
         ];
 
-        const results = convert(0, 0, elements);
-        expect(results).toMatchObject([
+        const result = convert(0, 0, elements);
+        expect(result.items).toMatchObject([
             {
                 text: "first view",
                 type: ElementType.View,
-                x: 0,
-                y: 0,
                 width: "first view".length * 10,
                 height: 15,
                 next: [],
@@ -234,16 +232,12 @@ describe(`When converting Elements to SvgElements`, ()=>{
             {
                 text: "first action",
                 type: ElementType.Action,
-                x: 0,
-                y: 15,
                 width: "first action".length * 10,
                 height: 15,
                 next: [
                     {
                         text: "second view",
                         type: ElementType.View,
-                        x: 0,
-                        //y: 0,
                         width: "second view".length * 10,
                         height: 15,
                         next: [],
@@ -251,8 +245,6 @@ describe(`When converting Elements to SvgElements`, ()=>{
                     {
                         text: "first action on second view",
                         type: ElementType.Action,
-                        x: 0,
-                        //y: 15,
                         width: "first action on second view".length * 10,
                         height: 15,
                         next: [],
@@ -260,8 +252,6 @@ describe(`When converting Elements to SvgElements`, ()=>{
                     {
                         text: "second action on second view",
                         type: ElementType.Action,
-                        x: 0,
-                        //y: 30,
                         width: "second action on second view".length * 10,
                         height: 15,
                         next: [],
@@ -271,8 +261,6 @@ describe(`When converting Elements to SvgElements`, ()=>{
             {
                 text: "second action",
                 type: ElementType.Action,
-                x: 0,
-                y: 30,
                 width: "second action".length * 10,
                 height: 15,
                 next: [],

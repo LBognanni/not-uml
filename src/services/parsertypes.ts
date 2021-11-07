@@ -32,4 +32,9 @@ interface BoundingBox {
     height: number;
 }
 
-export { ElementType, Element, SvgItem, Size, BoundingBox};
+interface ItemsWithBox {
+    items: SvgItem[];
+    box: BoundingBox;
+}
+
+export { ElementType, Element, SvgItem, Size, BoundingBox, ItemsWithBox};
