@@ -1,14 +1,14 @@
 enum ElementType {
     Root,
     View,
-    Action
-};
+    Action,
+}
 
 interface Element {
     text: string;
     type: ElementType;
     children: Element[];
-};
+}
 
 interface SvgItem {
     text: string;
@@ -37,4 +37,5 @@ interface ItemsWithBox {
     box: BoundingBox;
 }
 
-export { ElementType, Element, SvgItem, Size, BoundingBox, ItemsWithBox};
+export { ElementType };
+export type { Element, SvgItem, Size, BoundingBox, ItemsWithBox };
