@@ -77,8 +77,8 @@ function MeasureItems(items: SvgItem[]): BoundingBox
 function Convert(x: number, y: number, elements: Element[]) : SvgItem[]
 {
     let items:SvgItem[] = [];
-    let current_x = 0;
-    let current_y = 0;
+    let current_x = x;
+    let current_y = y;
 
     for(const element of elements)
     {
@@ -92,12 +92,22 @@ function Convert(x: number, y: number, elements: Element[]) : SvgItem[]
             height: size.height,
             next: []
         }
+        current_y += size.height;
         items.push(item);
+
         if(element.children)
         {
-            const subItems = Convert(x, y, element.children);
+            if(item.type === ElementType.View)
+            {
+                const subItems = Convert(current_x, current_y, element.children);
+                items.push(...subItems);
+            }
+            else
+            {
+                const subItems = Convert(x, y, element.children);
+                item.next = subItems;
+            }
         }
-        y += size.height;
     }
 
     return items;

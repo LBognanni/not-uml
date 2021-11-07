@@ -1,5 +1,5 @@
-import { MeasureItems } from "./converter"
-import { SvgItem, ElementType } from "./parsertypes"
+import { Convert, MeasureItems } from "./converter"
+import { SvgItem, ElementType, Element } from "./parsertypes"
 
 function makeItem(x: number, y: number, w: number, children: SvgItem[]): SvgItem {
     return {
@@ -126,4 +126,157 @@ describe(`When measuring items`, () => {
             expect(items[2].next[2].y).toBe(size.top + size.height - 20);
         });
     })
+});
+
+describe(`When converting Elements to SvgElements`, ()=>{
+    it(`Can convert a simple element list`, () =>{
+        const elements: Element[] = [
+            {
+                type: ElementType.View,
+                text: "first view",
+                children:[
+                    {
+                        type: ElementType.Action,
+                        text: "first action",
+                        children:[]
+                    },
+                    {
+                        type: ElementType.Action,
+                        text: "second action",
+                        children:[]
+                    },
+                ]
+            },
+        ];
+
+        const result = Convert(0, 0, elements);
+        expect(result).toMatchObject([
+            {
+                text: "first view",
+                type: ElementType.View,
+                x: 0,
+                y: 0,
+                width: "first view".length * 10,
+                height: 15,
+                next: [],
+            },
+            {
+                text: "first action",
+                type: ElementType.Action,
+                x: 0,
+                y: 15,
+                width: "first action".length * 10,
+                height: 15,
+                next: [],
+            },
+            {
+                text: "second action",
+                type: ElementType.Action,
+                x: 0,
+                y: 30,
+                width: "second action".length * 10,
+                height: 15,
+                next: [],
+            },
+        ]);
+    });
+
+    it(`Can convert a nested element list`, () => {
+        const elements: Element[] = [
+            {
+                type: ElementType.View,
+                text: "first view",
+                children:[
+                    {
+                        type: ElementType.Action,
+                        text: "first action",
+                        children:[
+                            {
+                                type: ElementType.View,
+                                text: "second view",
+                                children:[
+                                    {
+                                        type: ElementType.Action,
+                                        text: "first action on second view",
+                                        children:[]
+                                    },
+                                    {
+                                        type: ElementType.Action,
+                                        text: "second action on second view",
+                                        children:[
+                                            
+                                        ]
+                                    },
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        type: ElementType.Action,
+                        text: "second action",
+                        children:[]
+                    },
+                ]
+            },
+        ];
+
+        const results = Convert(0, 0, elements);
+        expect(results).toMatchObject([
+            {
+                text: "first view",
+                type: ElementType.View,
+                x: 0,
+                y: 0,
+                width: "first view".length * 10,
+                height: 15,
+                next: [],
+            },
+            {
+                text: "first action",
+                type: ElementType.Action,
+                x: 0,
+                y: 15,
+                width: "first action".length * 10,
+                height: 15,
+                next: [
+                    {
+                        text: "second view",
+                        type: ElementType.View,
+                        x: 0,
+                        //y: 0,
+                        width: "second view".length * 10,
+                        height: 15,
+                        next: [],
+                    },
+                    {
+                        text: "first action on second view",
+                        type: ElementType.Action,
+                        x: 0,
+                        //y: 15,
+                        width: "first action on second view".length * 10,
+                        height: 15,
+                        next: [],
+                    },
+                    {
+                        text: "second action on second view",
+                        type: ElementType.Action,
+                        x: 0,
+                        //y: 30,
+                        width: "second action on second view".length * 10,
+                        height: 15,
+                        next: [],
+                    },
+                ],
+            },
+            {
+                text: "second action",
+                type: ElementType.Action,
+                x: 0,
+                y: 30,
+                width: "second action".length * 10,
+                height: 15,
+                next: [],
+            },            
+        ]);
+    });
 });
