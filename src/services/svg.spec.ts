@@ -34,9 +34,9 @@ describe(`When converting items to svg string`, () => {
                     height: 0,
                     width: 0,
                     next: [],
-                    type: ElementType.View
+                    type: ElementType.Action
                 }],
-                type: ElementType.View,
+                type: ElementType.Action,
                 width: 0
             }
         ];
@@ -48,6 +48,25 @@ describe(`When converting items to svg string`, () => {
 <text x="100" y="0" font-size="10">hi</text>
 </g>`);
     });
+
+    it("Should have a solid line under view types", () => {
+        const items: SvgItem[] = [
+            {
+                x: 0,
+                y: 0,
+                text: "hello",
+                height: 15,
+                next: [],
+                type: ElementType.View,
+                width: 0
+            }
+        ];
+        const result = itemsToSvg(items);
+        expect(result).toBe(`<g>
+<text x="0" y="0" font-size="10">hello</text>
+<path d="m0 12.5 h${("hello".length * 10)}" stroke="#000" stroke-width="2" fill="none"/>
+</g>`);
+    })
 });
 
 
