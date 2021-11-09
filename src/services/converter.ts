@@ -7,8 +7,8 @@ import {
     ItemsWithBox,
 } from "./parsertypes";
 
-const vspacing = 50;
-const hspacing = 100;
+const vspacing = 10;
+const hspacing = 30;
 
 function measureString(text: string): Size {
     const char_width = 10;
@@ -32,18 +32,16 @@ function measureAndMoveItems(items: SvgItem[]): BoundingBox {
     let box: BoundingBox = {
         left: 9999999,
         top: 9999999,
-        width: 0,
-        height: 0,
+        bottom: -9999999,
+        right: -9999999,
     };
     let directChildren = [];
 
-    let prevBottom = items[0]?.y ?? 0;
     for (const item of items) {
         box.left = Math.min(box.left, item.x);
         box.top = Math.min(box.top, item.y);
-        box.width = Math.max(box.width, item.width);
-        box.height += item.height + (item.y - prevBottom);
-        prevBottom = item.y + item.height;
+        box.right = Math.max(box.right, item.width + item.x);
+        box.bottom = Math.max(item.height + item.y, box.bottom);
 
         if (item.next.length) {
             directChildren.push({
@@ -56,26 +54,44 @@ function measureAndMoveItems(items: SvgItem[]): BoundingBox {
     if (directChildren.length) {
         const allChildrenHeight =
             directChildren.reduce((prev, cur) => {
-                return prev + cur.box.height;
+                return prev + cur.box.bottom - cur.box.top;
             }, 0) +
             (directChildren.length - 1) * vspacing;
 
-        let top = box.top + box.height / 2 - allChildrenHeight / 2;
-        const moveLeft = box.width + hspacing;
-        box.top = Math.min(box.top, top);
+        let moveUpDown = (box.top + box.bottom) / 2 - (allChildrenHeight / 2);
+        const moveLeft = box.right + hspacing;
 
-        for (const child of directChildren) {
-            moveItems(child.items, moveLeft, top);
-            top += child.box.height + vspacing;
+        for (const childGroup of directChildren) {
+            moveItems(childGroup.items, moveLeft, moveUpDown);
+
+            moveUpDown +=  vspacing + (childGroup.box.bottom - childGroup.box.top);
+
+            const newSize = measureAll(childGroup.items);
+            box.left = Math.min(box.left, newSize.left);
+            box.top = Math.min(box.top, newSize.top);
+            box.right = Math.max(box.right, newSize.right);
+            box.bottom = Math.max(box.bottom, newSize.bottom);
         }
-        box.height = Math.max(box.height, allChildrenHeight);
-        box.width =
-            box.width +
-            directChildren.reduce(
-                (prev, cur) => Math.max(prev, cur.box.width),
-                0,
-            ) +
-            hspacing;
+    }
+
+    return box;
+}
+
+function measureAll(items: SvgItem[]) {
+    const box = {
+        left: 99999,
+        top: 99999,
+        right: -99999,
+        bottom: -99999
+    }
+
+    for(const item of items)
+    {
+        const underling = measureAll(item.next);
+        box.left = Math.min(box.left, item.x, underling.left);
+        box.top = Math.min(box.top, item.y, underling.top);
+        box.right = Math.max(box.right, item.x + item.width, underling.right);
+        box.bottom = Math.max(box.bottom, item.y + item.height, underling.bottom);
     }
 
     return box;
@@ -119,4 +135,4 @@ function convert(x: number, y: number, elements: Element[]): ItemsWithBox {
     return { items, box };
 }
 
-export { convert, measureAndMoveItems };
+export { convert, measureAndMoveItems, hspacing, vspacing };

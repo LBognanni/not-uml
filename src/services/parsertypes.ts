@@ -28,8 +28,8 @@ interface Size {
 interface BoundingBox {
     left: number;
     top: number;
-    width: number;
-    height: number;
+    right: number;
+    bottom: number;
 }
 
 interface ItemsWithBox {

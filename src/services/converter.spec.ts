@@ -1,5 +1,5 @@
 import { SvgItem, ElementType, Element } from "./parsertypes";
-import { convert, measureAndMoveItems } from "./converter";
+import { convert, hspacing, measureAndMoveItems, vspacing } from "./converter";
 
 function makeItem(
     x: number,
@@ -30,8 +30,8 @@ describe(`When measuring items`, () => {
         expect(size).toMatchObject({
             left: 0,
             top: 0,
-            width: 110,
-            height: 65,
+            right: 110,
+            bottom: 65,
         });
     });
 
@@ -51,13 +51,13 @@ describe(`When measuring items`, () => {
             expect(size).toMatchObject({
                 left: 0,
                 top: 0,
-                width: 110 + 100 + 110,
-                height: 65,
+                right: 110 + hspacing + 110,
+                bottom: 65,
             });
         });
 
         it(`Should move child items correctly`, () => {
-            expect(items[1].next[2].x).toBe(110 + 100);
+            expect(items[1].next[2].x).toBe(110 + hspacing);
             expect(items[1].next[0].y).toBe(items[0].y);
         });
     });
@@ -82,13 +82,13 @@ describe(`When measuring items`, () => {
             expect(size).toMatchObject({
                 left: 0,
                 top: 0,
-                width: 110 + 100 + 110 + 100 + 110,
-                height: 65,
+                right: 110 + hspacing + 110 + hspacing + 110,
+                bottom: 65,
             });
         });
 
         it(`Should move child items correctly`, () => {
-            expect(items[1].next[1].next[2].x).toBe(110 + 100 + 110 + 100);
+            expect(items[1].next[1].next[2].x).toBe(110 + hspacing + 110 + hspacing);
             expect(items[1].next[1].next[0].y).toBe(items[0].y);
         });
     });
@@ -112,22 +112,28 @@ describe(`When measuring items`, () => {
             ]),
         ];
 
+        // - 1 box of 3 items at (0,0, 110, 60)
+        // - 3 boxes of the same size: total 240 height
+        //   - 1st box at (140, -90)
+        //   - 2nd box at (140, 0)
+        //   - 3rd box at (130, 90)
+
         const size = measureAndMoveItems(items);
-        const expectedAllHeight = 60 * 3 + 50 * 2;
+        const expectedAllHeight = 60 * 3 + vspacing * 2;
 
         it(`Should calculate the correct size`, () => {
             expect(size).toMatchObject({
                 left: 0,
                 top: 30 - expectedAllHeight / 2,
-                width: 110 + 100 + 110,
-                height: expectedAllHeight,
+                right: 110 + hspacing + 110,
+                bottom: expectedAllHeight/2 + 30,
             });
         });
 
         it(`Should move child items correctly`, () => {
-            expect(items[1].next[1].x).toBe(110 + 100);
             expect(items[0].next[0].y).toBe(size.top);
-            expect(items[2].next[2].y).toBe(size.top + size.height - 20);
+            expect(items[1].next[1].x).toBe(110 + hspacing);
+            expect(items[2].next[2].y).toBe(size.bottom - 20);
         });
     });
 });
