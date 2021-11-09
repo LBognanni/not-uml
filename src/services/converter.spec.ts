@@ -1,5 +1,5 @@
 import { SvgItem, ElementType, Element } from "./parsertypes";
-import { convert, hspacing, measureAndMoveItems, vspacing } from "./converter";
+import { char_width, convert, hspacing, line_height, measureAndMoveItems, vspacing } from "./converter";
 
 function makeItem(
     x: number,
@@ -166,26 +166,26 @@ describe(`When converting Elements to SvgElements`, () => {
                 type: ElementType.View,
                 x: 0,
                 y: 0,
-                width: "first view".length * 10,
-                height: 15,
+                width: "first view".length * char_width,
+                height: line_height,
                 next: [],
             },
             {
                 text: "first action",
                 type: ElementType.Action,
                 x: 0,
-                y: 15,
-                width: "first action".length * 10,
-                height: 15,
+                y: line_height,
+                width: "first action".length * char_width,
+                height: line_height,
                 next: [],
             },
             {
                 text: "second action",
                 type: ElementType.Action,
                 x: 0,
-                y: 30,
-                width: "second action".length * 10,
-                height: 15,
+                y: line_height*2,
+                width: "second action".length * char_width,
+                height: line_height,
                 next: [],
             },
         ]);
@@ -233,35 +233,35 @@ describe(`When converting Elements to SvgElements`, () => {
             {
                 text: "first view",
                 type: ElementType.View,
-                width: "first view".length * 10,
-                height: 15,
+                width: "first view".length * char_width,
+                height: line_height,
                 next: [],
             },
             {
                 text: "first action",
                 type: ElementType.Action,
-                width: "first action".length * 10,
-                height: 15,
+                width: "first action".length * char_width,
+                height: line_height,
                 next: [
                     {
                         text: "second view",
                         type: ElementType.View,
-                        width: "second view".length * 10,
-                        height: 15,
+                        width: "second view".length * char_width,
+                        height: line_height,
                         next: [],
                     },
                     {
                         text: "first action on second view",
                         type: ElementType.Action,
-                        width: "first action on second view".length * 10,
-                        height: 15,
+                        width: "first action on second view".length * char_width,
+                        height: line_height,
                         next: [],
                     },
                     {
                         text: "second action on second view",
                         type: ElementType.Action,
-                        width: "second action on second view".length * 10,
-                        height: 15,
+                        width: "second action on second view".length * char_width,
+                        height: line_height,
                         next: [],
                     },
                 ],
@@ -269,8 +269,8 @@ describe(`When converting Elements to SvgElements`, () => {
             {
                 text: "second action",
                 type: ElementType.Action,
-                width: "second action".length * 10,
-                height: 15,
+                width: "second action".length * char_width,
+                height: line_height,
                 next: [],
             },
         ]);

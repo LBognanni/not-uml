@@ -9,10 +9,10 @@ import {
 
 const vspacing = 10;
 const hspacing = 30;
+const char_width = 8;
+const line_height = 20;
 
 function measureString(text: string): Size {
-    const char_width = 10;
-    const line_height = 15;
 
     return {
         width: char_width * text.length,
@@ -135,4 +135,4 @@ function convert(x: number, y: number, elements: Element[]): ItemsWithBox {
     return { items, box };
 }
 
-export { convert, measureAndMoveItems, hspacing, vspacing };
+export { convert, measureAndMoveItems, hspacing, vspacing, char_width, line_height };

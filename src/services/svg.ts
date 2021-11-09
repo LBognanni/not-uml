@@ -71,7 +71,7 @@ function convertToSvg(text: string) {
     const resultText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.left} ${box.top} ${box.right - box.left} ${box.bottom - box.top}">
 <style>
 text { 
-    font: 10px monospace;
+    font: 10pt monospace;
 }
 .view {
     font-weight: bold;
