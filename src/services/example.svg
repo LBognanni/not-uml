@@ -1,7 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<style>
+    text { 
+        font: 10px monospace;
+    }
+    .view {
+        font-weight: bold;
+    }
+</style>
 <g>
-<text x="0" y="10" font-size="10">Some View</text>
-<text x="0" y="20" font-size="10">First Action</text>
-<text x="0" y="30" font-size="10">Second Action</text>
+<text class="view" dominant-baseline="hanging" x="0" y="0">Some action</text>
+<path d="m0 12.5 h100" stroke="#000" stroke-dasharray="12,12" stroke-width="1" fill="none"/>
+<text class="action" dominant-baseline="hanging" x="0" y="15">Other action</text>
 </g>
 </svg>

@@ -1,3 +1,5 @@
+import { convert } from "./converter";
+import { extractElements } from "./parser";
 import { ElementType, SvgItem } from "./parsertypes";
 
 function itemToSvg(item: SvgItem): string {
@@ -64,8 +66,21 @@ function itemsToSvg(items: SvgItem[]): string {
 }
 
 function convertToSvg(text: string) {
-    return `<svg xmlns="http://www.w3.org/2000/svg">
+    const elements = extractElements(text);
+    const {items, box} = convert(0,0, elements);
+    const resultText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.left} ${box.top} ${box.right - box.left} ${box.bottom - box.top}">
+<style>
+text { 
+    font: 10px monospace;
+}
+.view {
+    font-weight: bold;
+}
+</style>
+${itemsToSvg(items)}
 </svg>`;
+
+    return { svg: resultText, box: box}
 }
 
 export { convertToSvg, itemsToSvg };
