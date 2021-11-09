@@ -16,7 +16,7 @@ describe(`When converting items to svg string`, () => {
         ];
         const result = itemsToSvg(items);
         expect(result).toBe(`<g>
-<text dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
+<text class="action" dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
 </g>`);
     });
 
@@ -44,10 +44,10 @@ describe(`When converting items to svg string`, () => {
         ];
         const result = itemsToSvg(items);
         expect(result).toBe(`<g>
-<text dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
+<text class="action" dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
 </g>
 <g>
-<text dominant-baseline="hanging" x="100" y="0" font-size="10">hi</text>
+<text class="action" dominant-baseline="hanging" x="100" y="0" font-size="10">hi</text>
 </g>`);
     });
 
@@ -74,9 +74,9 @@ describe(`When converting items to svg string`, () => {
         ];
         const result = itemsToSvg(items);
         expect(result).toBe(`<g>
-<text dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
-<path d="m0 12.5 h50" stroke="#000" stroke-width="2" fill="none"/>
-<text dominant-baseline="hanging" x="0" y="15" font-size="10">hello</text>
+<text class="view" dominant-baseline="hanging" x="0" y="0" font-size="10">hello</text>
+<path d="m0 5 h50" stroke="#000" stroke-width="2" fill="none"/>
+<text class="action" dominant-baseline="hanging" x="0" y="15" font-size="10">hello</text>
 </g>`);
     });
 
@@ -104,9 +104,9 @@ describe(`When converting items to svg string`, () => {
 
         const result = itemsToSvg(items);
         expect(result).toBe(`<g>
-<text dominant-baseline="hanging" x="0" y="0" font-size="10">Some action</text>
-<path d="m0 12.5 h100" stroke="#000" stroke-dasharray="12,12" stroke-width="2" fill="none"/>
-<text dominant-baseline="hanging" x="0" y="15" font-size="10">Other action</text>
+<text class="action" dominant-baseline="hanging" x="0" y="0" font-size="10">Some action</text>
+<path d="m0 5 h100" stroke="#000" stroke-dasharray="5,5" stroke-width="2" fill="none"/>
+<text class="action" dominant-baseline="hanging" x="0" y="15" font-size="10">Other action</text>
 </g>`)
     });
 });

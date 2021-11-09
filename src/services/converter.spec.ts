@@ -159,7 +159,7 @@ describe(`When converting Elements to SvgElements`, () => {
             },
         ];
 
-        const result = convert(0, 0, elements);
+        const result = convert(elements);
         expect(result.items).toMatchObject([
             {
                 text: "first view",
@@ -228,7 +228,7 @@ describe(`When converting Elements to SvgElements`, () => {
             },
         ];
 
-        const result = convert(0, 0, elements);
+        const result = convert(elements);
         expect(result.items).toMatchObject([
             {
                 text: "first view",

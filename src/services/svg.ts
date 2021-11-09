@@ -3,17 +3,18 @@ import { extractElements } from "./parser";
 import { ElementType, SvgItem } from "./parsertypes";
 
 function itemToSvg(item: SvgItem): string {
-    return `<text dominant-baseline="hanging" x="${item.x}" y="${item.y}" font-size="10">${item.text}</text>`;
+    return `<text class="${item.type === ElementType.View ? "view" : "action" }" dominant-baseline="hanging" x="${item.x}" y="${item.y}" font-size="10">${item.text}</text>`;
 }
 
 function horizontalLine(x: number, y: number, width: number, dash: boolean) {
-    return `<path d="m0 12.5 h${width}" stroke="#000"${dash ? ' stroke-dasharray="12,12"' : ""} stroke-width="2" fill="none"/>`;
+    return `<path d="m${x} ${y} h${width}" stroke="#000"${dash ? ' stroke-dasharray="5,5"' : ""} stroke-width="2" fill="none"/>`;
 }
 
 function groupToSvg(items: SvgItem[]): string[] {
     const childItemGroups = [];
     let lines = [];
     let previousType : ElementType = ElementType.Root;
+    const lineWidth = items.reduce((prev, x)=>Math.max(prev, x.width), 0);
 
     if (items.length) {
         lines.push("<g>");
@@ -25,8 +26,8 @@ function groupToSvg(items: SvgItem[]): string[] {
                     lines.push(
                         horizontalLine(
                             item.x,
-                            item.y + item.height - 2.5,
-                            item.width,
+                            item.y - 10,
+                            lineWidth,
                             false
                         ),
                     );
@@ -35,8 +36,8 @@ function groupToSvg(items: SvgItem[]): string[] {
                     lines.push(
                         horizontalLine(
                             item.x,
-                            item.y + item.height - 2.5,
-                            item.width,
+                            item.y - 10,
+                            lineWidth,
                             true
                         ),
                     );
@@ -47,6 +48,11 @@ function groupToSvg(items: SvgItem[]): string[] {
             previousType = item.type;
 
             if (item.next) {
+                var nextView =item.next.find(x=>x.type === ElementType.View);
+                if(nextView)
+                {
+                    lines.push(arrow(item.x + lineWidth + 10, item.y + 10, nextView.x - 10, nextView.y + 10));
+                }
                 childItemGroups.push(item.next);
             }
         }
@@ -60,6 +66,10 @@ function groupToSvg(items: SvgItem[]): string[] {
     return lines;
 }
 
+function arrow(x1: number, y1: number, x2: number, y2: number){
+    return `<path d="m${x1} ${y1} l${x2-x1} ${y2-y1}" stroke="#000" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />`;
+}
+
 function itemsToSvg(items: SvgItem[]): string {
     let arr = groupToSvg(items);
     return arr.join("\n");
@@ -67,7 +77,7 @@ function itemsToSvg(items: SvgItem[]): string {
 
 function convertToSvg(text: string) {
     const elements = extractElements(text);
-    const {items, box} = convert(0,0, elements);
+    const {items, box} = convert(elements);
     const resultText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.left} ${box.top} ${box.right - box.left} ${box.bottom - box.top}">
 <style>
 text { 
@@ -77,6 +87,12 @@ text {
     font-weight: bold;
 }
 </style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" 
+refX="9" refY="3.5" orient="auto">
+  <polygon points="0 0, 10 3.5, 0 7" />
+</marker>
+</defs>
 ${itemsToSvg(items)}
 </svg>`;
 

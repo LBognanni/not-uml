@@ -7,10 +7,10 @@ import {
     ItemsWithBox,
 } from "./parsertypes";
 
-const vspacing = 10;
-const hspacing = 30;
+const vspacing = 50;
+const hspacing = 100;
 const char_width = 8;
-const line_height = 20;
+const line_height = 30;
 
 function measureString(text: string): Size {
 
@@ -97,9 +97,8 @@ function measureAll(items: SvgItem[]) {
     return box;
 }
 
-function convert(x: number, y: number, elements: Element[]): ItemsWithBox {
+function elementsToItems(y: number, elements: Element[]) : SvgItem[]{
     let items: SvgItem[] = [];
-    let current_x = x;
     let current_y = y;
 
     for (const element of elements) {
@@ -107,7 +106,7 @@ function convert(x: number, y: number, elements: Element[]): ItemsWithBox {
         let item: SvgItem = {
             text: element.text,
             type: element.type,
-            x: current_x,
+            x: 0,
             y: current_y,
             width: size.width,
             height: size.height,
@@ -118,19 +117,21 @@ function convert(x: number, y: number, elements: Element[]): ItemsWithBox {
 
         if (element.children) {
             if (item.type === ElementType.View) {
-                const { items: subItems } = convert(
-                    current_x,
-                    current_y,
-                    element.children,
-                );
+                const subItems = elementsToItems(current_y, element.children);
                 items.push(...subItems);
             } else {
-                const { items: subItems } = convert(x, y, element.children);
+                const subItems = elementsToItems(0, element.children);
                 item.next = subItems;
             }
         }
     }
 
+    return items;
+}
+
+function convert(elements: Element[]): ItemsWithBox {
+
+    const items = elementsToItems(0, elements)
     const box = measureAndMoveItems(items);
     return { items, box };
 }
