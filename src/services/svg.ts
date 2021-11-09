@@ -10,6 +10,10 @@ function horizontalLine(x: number, y: number, width: number, dash: boolean) {
     return `<path d="m${x} ${y} h${width}" stroke="#000"${dash ? ' stroke-dasharray="5,5"' : ""} stroke-width="2" fill="none"/>`;
 }
 
+function arrow(x1: number, y1: number, x2: number, y2: number){
+    return `<path d="m${x1} ${y1} l${x2-x1} ${y2-y1}" stroke="#000" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />`;
+}
+
 function groupToSvg(items: SvgItem[]): string[] {
     const childItemGroups = [];
     let lines = [];
@@ -64,10 +68,6 @@ function groupToSvg(items: SvgItem[]): string[] {
         }
     }
     return lines;
-}
-
-function arrow(x1: number, y1: number, x2: number, y2: number){
-    return `<path d="m${x1} ${y1} l${x2-x1} ${y2-y1}" stroke="#000" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />`;
 }
 
 function itemsToSvg(items: SvgItem[]): string {

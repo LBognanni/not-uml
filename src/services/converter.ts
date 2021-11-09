@@ -7,7 +7,7 @@ import {
     ItemsWithBox,
 } from "./parsertypes";
 
-const vspacing = 50;
+const vspacing = 20;
 const hspacing = 100;
 const char_width = 8;
 const line_height = 30;

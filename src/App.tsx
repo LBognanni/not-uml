@@ -22,7 +22,9 @@ function App() {
 
       <textarea value={text} onChange={(e) => convertSvg(e.target.value)}></textarea>
 
-      <div style={{width: svgWidth + "px", overflow: "auto"}} dangerouslySetInnerHTML={{ __html: svg }} />
+      <div className="chart-container">
+        <div style={{width: svgWidth + "px"}} dangerouslySetInnerHTML={{ __html: svg }} />
+      </div>
     </div>
   );
 }
