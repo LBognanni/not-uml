@@ -11,7 +11,10 @@ function horizontalLine(x: number, y: number, width: number, dash: boolean) {
 }
 
 function arrow(x1: number, y1: number, x2: number, y2: number){
-    return `<path d="m${x1} ${y1} l${x2-x1} ${y2-y1}" stroke="#000" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />`;
+    const dx = 5;
+    var cp1 =  (x2 - x1 - dx*2) * .8;
+    var cp2 =  (x2 - x1 - dx*2) * .2;
+    return `<path d="m${x1} ${y1} h ${dx} c ${cp1} ${0} ${cp2} ${y2-y1} ${x2-x1-dx*2} ${y2-y1} h ${dx}" stroke="#000" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />`;
 }
 
 function groupToSvg(items: SvgItem[]): string[] {
@@ -55,7 +58,7 @@ function groupToSvg(items: SvgItem[]): string[] {
                 var nextView =item.next.find(x=>x.type === ElementType.View);
                 if(nextView)
                 {
-                    lines.push(arrow(item.x + lineWidth + 10, item.y + 10, nextView.x - 10, nextView.y + 10));
+                    lines.push(arrow(item.x + lineWidth + 8, item.y + 6, nextView.x - 10, nextView.y + 6));
                 }
                 childItemGroups.push(item.next);
             }
@@ -89,8 +92,8 @@ text {
 </style>
 <defs>
 <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-refX="9" refY="3.5" orient="auto">
-  <polygon points="0 0, 10 3.5, 0 7" />
+refX="5" refY="2.5" orient="auto">
+  <polygon points="0 0, 6 2.5, 0 5" />
 </marker>
 </defs>
 ${itemsToSvg(items)}
