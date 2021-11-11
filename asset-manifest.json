@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/not-uml/static/css/main.b461ba0a.chunk.css",
-    "main.js": "/not-uml/static/js/main.c2f95671.chunk.js",
-    "main.js.map": "/not-uml/static/js/main.c2f95671.chunk.js.map",
+    "main.css": "/not-uml/static/css/main.3a85da53.chunk.css",
+    "main.js": "/not-uml/static/js/main.b5d900f5.chunk.js",
+    "main.js.map": "/not-uml/static/js/main.b5d900f5.chunk.js.map",
     "runtime-main.js": "/not-uml/static/js/runtime-main.297a4c96.js",
     "runtime-main.js.map": "/not-uml/static/js/runtime-main.297a4c96.js.map",
     "static/js/2.f673b32f.chunk.js": "/not-uml/static/js/2.f673b32f.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.ef65bb0f.chunk.js": "/not-uml/static/js/3.ef65bb0f.chunk.js",
     "static/js/3.ef65bb0f.chunk.js.map": "/not-uml/static/js/3.ef65bb0f.chunk.js.map",
     "index.html": "/not-uml/index.html",
-    "static/css/main.b461ba0a.chunk.css.map": "/not-uml/static/css/main.b461ba0a.chunk.css.map",
+    "static/css/main.3a85da53.chunk.css.map": "/not-uml/static/css/main.3a85da53.chunk.css.map",
     "static/js/2.f673b32f.chunk.js.LICENSE.txt": "/not-uml/static/js/2.f673b32f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.297a4c96.js",
     "static/js/2.f673b32f.chunk.js",
-    "static/css/main.b461ba0a.chunk.css",
-    "static/js/main.c2f95671.chunk.js"
+    "static/css/main.3a85da53.chunk.css",
+    "static/js/main.b5d900f5.chunk.js"
   ]
 }
