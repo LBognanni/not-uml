@@ -11,12 +11,17 @@ function App() {
 `);
   const [svg, updateSvg] = useState("");
   const [svgWidth, updateSvgWidth] = useState(100);
+  const [svgBlob, updateSvgBlob] = useState("");
 
   function convertSvg(text: string){
     updateText(text);
     const result = convertToSvg(text);
     updateSvg(result.svg)
     updateSvgWidth(result.box.right);
+
+    var data = new Blob([result.svg], {type: 'image/svg+xml'});
+    var url = window.URL.createObjectURL(data);
+    updateSvgBlob(url);
   }
 
   return (
@@ -32,6 +37,7 @@ function App() {
       <div className="chart-container">
         <div style={{width: svgWidth + "px"}} dangerouslySetInnerHTML={{ __html: svg }} />
       </div>
+      <a title="Download SVG" id="download-button" download="chart.svg" href={svgBlob}><span>Download</span></a>
     </div>
   );
 }
