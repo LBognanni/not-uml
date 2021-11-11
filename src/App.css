@@ -1,17 +1,44 @@
 .App textarea {
   position: fixed;
-  left: 0; top: 0;
+  left: 0; top: 64px;
   height: 100%;
-  width: 30%;
+  width: calc(30% - 16px);
+  padding: 8px;
+  border: 1px solid #888;
+  outline: none;
 }
+
+.App textarea:focus{
+  border: 1px solid #444;
+}
+
 .chart-container {
   position: fixed;
   right: 0;
   bottom: 0;
-  top: 0;
+  top: 64px;
   width: 70%;
   overflow: auto;
 }
 .chart-container div {
   margin: 1em;
+}
+.App .logo {
+  font-family: monospace;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 64px;
+  width: calc(30% - 16px);
+  padding: 8px;
+}
+
+.App .logo h1{
+  color: #444;
+  font-weight: bold;
+  margin: 0
+}
+.App .logo p{
+  color: #444;
+  margin: 0
 }
