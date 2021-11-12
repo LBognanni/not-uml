@@ -1,11 +1,28 @@
+.App {
+  font-family: monospace;
+}
 .App textarea {
   position: fixed;
   left: 0; top: 64px;
-  height: 100%;
+  bottom: 146px;
   width: calc(30% - 16px);
   padding: 8px;
   border: 1px solid #888;
   outline: none;
+}
+
+#instructions {
+  background-color: #eee;
+  position: fixed;
+  left: 0;
+  width: calc(30% - 16px);
+  padding: 8px;
+  bottom: 0;
+  height: 130px;
+}
+
+#instructions p, #instructions h4 {
+  margin: 2px;
 }
 
 .App textarea:focus{
@@ -24,7 +41,6 @@
   margin: 1em;
 }
 .App .logo {
-  font-family: monospace;
   position: fixed;
   left: 0;
   top: 0;
