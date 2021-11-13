@@ -3,22 +3,24 @@
 }
 .App textarea {
   position: fixed;
-  left: 0; top: 64px;
+  left: 0; 
+  top: 64px;
   bottom: 146px;
-  width: calc(30% - 16px);
+  width: 30%;
   padding: 8px;
   border: 1px solid #888;
   outline: none;
+  height: calc(100% - 210px);
 }
 
 #instructions {
   background-color: #eee;
   position: fixed;
   left: 0;
-  width: calc(30% - 16px);
+  width: 30%;
   padding: 8px;
   bottom: 0;
-  height: 130px;
+  height: 146px;
 }
 
 #instructions p, #instructions h4 {
@@ -45,7 +47,7 @@
   left: 0;
   top: 0;
   height: 64px;
-  width: calc(30% - 16px);
+  width: 30%;
   padding: 8px;
 }
 
@@ -66,9 +68,13 @@
   background-color: #007FFF;
   width: 56px;
   height: 56px;
-  display: block;
   border-radius: 50%;
   box-shadow: 4px 4px 8px #4445;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #download-button:hover{
@@ -77,17 +83,12 @@
 }
 
 #download-button::before{
-  position: absolute;
-  width: 100%;
-  height: 100%;
   content: "⬇";
   font-weight: bold;
   color: rgba(255,255,255, 0.7);
   font-size: 48px;
-  line-height: 100%;
-  text-align: center;
+  padding-bottom: 0.1em;
 }
-
 
 #download-button:hover::before{
   color: rgba(255,255,255, 1);
