@@ -6,7 +6,7 @@
 
 **What:** A simple web app to create so-called "fractional notation" UI flows, as described in Ryan Singer's [post "A shorthand for designing UI flows"](https://signalvnoise.com/posts/1926-a-shorthand-for-designing-ui-flows) from way back in 2009. 
 
-Try it live on [https://lbognanni.github.ui/not-uml](https://lbognanni.github.ui/not-uml)
+Try it live on [https://lbognanni.github.io/not-uml](https://lbognanni.github.io/not-uml)
 
 **Why:** 
 
